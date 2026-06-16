@@ -3,39 +3,99 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex Arcade | Unblocked</title>
+    <title>Apex Arcade & Launcher</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <h1>🎮 Apex Arcade</h1>
-        <p>Your ultimate hub for unblocked web games.</p>
+        <h1>🎮 Apex Portal</h1>
+        <p>Launch games locally or open any URL in a clean tab.</p>
     </header>
 
+    <section class="launcher-box">
+        <h2>🚀 Auto-Blank URL Launcher</h2>
+        <p>Paste a URL below to open it inside a secure, clean window.</p>
+        <div class="input-group">
+            <input type="text" id="urlInput" placeholder="https://example.com">
+            <button onclick="launchUrl()">Launch Window</button>
+        </div>
+    </section>
+
     <main class="game-container">
+        
+        <div class="game-card">
+            <h3>Retro Snake</h3>
+            <p>Play classic snake hosted entirely on this site.</p>
+            <button onclick="launchLocalGame('snake.html')" class="play-btn">Play Locally</button>
+        </div>
+
         <div class="game-card">
             <h3>2048</h3>
             <p>Slide tiles and get to the 2048 tile!</p>
-            <a href="https://gabrielecirulli.github.io/2048/" target="_blank" class="play-btn">Play Now</a>
+            <button onclick="launchUrlDirect('https://gabrielecirulli.github.io/2048/')" class="play-btn">Launch External</button>
         </div>
 
-        <div class="game-card">
-            <h3>Hextris</h3>
-            <p>Fast-paced puzzle game inspired by Tetris.</p>
-            <a href="https://hextris.io/" target="_blank" class="play-btn">Play Now</a>
-        </div>
-
-        <div class="game-card">
-            <h3>Astray</h3>
-            <p>Navigate through a 3D canvas maze.</p>
-            <a href="https://www.wordsandrock.com/astray/" target="_blank" class="play-btn">Play Now</a>
-        </div>
     </main>
 
     <footer>
         <p>&copy; 2026 Apex Arcade. Built with GitHub Pages.</p>
     </footer>
+
+    <script>
+        // Function 1: Launches any custom URL entered in the input box into about:blank
+        function launchUrl() {
+            let url = document.getElementById('urlInput').value.trim();
+            
+            if (!url) {
+                alert('Please enter a URL first!');
+                return;
+            }
+
+            // Ensure url has http or https prefix
+            if (!/^https?:\/\//i.test(url)) {
+                url = 'https://' + url;
+            }
+
+            const win = window.open('about:blank', '_blank');
+            if (win) {
+                win.document.body.style.margin = '0';
+                win.document.body.style.height = '100vh';
+                
+                const iframe = win.document.createElement('iframe');
+                iframe.style.border = 'none';
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.src = url;
+                
+                win.document.body.appendChild(iframe);
+            } else {
+                alert('Pop-up blocked! Please allow pop-ups for this site.');
+            }
+        }
+
+        // Function 2: For preset external game cards
+        function launchUrlDirect(targetUrl) {
+            const win = window.open('about:blank', '_blank');
+            if (win) {
+                win.document.body.style.margin = '0';
+                win.document.body.style.height = '100vh';
+                const iframe = win.document.createElement('iframe');
+                iframe.style.border = 'none';
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.src = targetUrl;
+                win.document.body.appendChild(iframe);
+            }
+        }
+
+        // Function 3: Opens your local HTML game files (like snake.html)
+        function launchLocalGame(pageName) {
+            // Gets the current domain path so it stays on your site structure
+            const currentPath = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
+            launchUrlDirect(currentPath + pageName);
+        }
+    </script>
 
 </body>
 </html>
