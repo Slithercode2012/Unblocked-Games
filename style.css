@@ -1,88 +1,66 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
-body {
-    background-color: #121214;
-    color: #e1e1e6;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-header {
-    background: linear-gradient(135deg, #6200ee, #03dac6);
-    padding: 2rem;
-    text-align: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-}
-
-header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-}
-
-.game-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 2rem;
-    padding: 3rem 2rem;
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-}
-
-.game-card {
+/* Launcher Section Styles */
+.launcher-box {
     background-color: #1f2029;
+    max-width: 600px;
+    margin: 2rem auto 0 auto;
+    padding: 2rem;
     border-radius: 12px;
-    padding: 1.5rem;
+    border: 1px solid #6200ee;
     text-align: center;
-    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
-    transition: transform 0.2s, box-shadow 0.2s;
-    border: 1px solid #2e303c;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.3);
 }
 
-.game-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 20px rgba(98, 0, 238, 0.3);
-}
-
-.game-card h3 {
-    margin-bottom: 0.8rem;
+.launcher-box h2 {
     color: #03dac6;
+    margin-bottom: 0.5rem;
 }
 
-.game-card p {
-    font-size: 0.9rem;
+.launcher-box p {
     color: #a8a8b3;
+    font-size: 0.9rem;
     margin-bottom: 1.5rem;
-    min-height: 40px;
 }
 
-.play-btn {
-    display: inline-block;
-    background-color: #6200ee;
-    color: white;
-    padding: 0.6rem 1.5rem;
+.input-group {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+.input-group input {
+    flex: 1;
+    background-color: #121214;
+    border: 2px solid #2e303c;
     border-radius: 6px;
-    text-decoration: none;
+    padding: 0.8rem;
+    color: white;
+    font-size: 1rem;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+    border-color: #03dac6;
+}
+
+.input-group button {
+    background-color: #03dac6;
+    color: #121214;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 6px;
     font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
     transition: background 0.2s;
 }
 
-.play-btn:hover {
-    background-color: #3700b3;
+.input-group button:hover {
+    background-color: #01bfa5;
 }
 
-footer {
-    margin-top: auto;
-    background-color: #0c0c0e;
-    text-align: center;
-    padding: 1rem;
-    font-size: 0.85rem;
-    color: #737380;
+/* Fix button pointers for the game cards */
+.play-btn {
+    cursor: pointer;
+    border: none;
 }
