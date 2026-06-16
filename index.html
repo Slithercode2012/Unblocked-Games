@@ -10,15 +10,15 @@
 
     <header>
         <h1>🎮 Apex Portal</h1>
-        <p>Launch games locally or open any URL in a clean tab.</p>
+        <p>Launch games locally or open any website cleanly.</p>
     </header>
 
     <section class="launcher-box">
-        <h2>🚀 Auto-Blank URL Launcher</h2>
-        <p>Paste a URL below to open it inside a secure, clean window.</p>
+        <h2>🚀 URL Launcher</h2>
+        <p>Enter any URL below to launch it cleanly in a new tab.</p>
         <div class="input-group">
             <input type="text" id="urlInput" placeholder="https://example.com">
-            <button onclick="launchUrl()">Launch Window</button>
+            <button onclick="launchUrl()">Launch Site</button>
         </div>
     </section>
 
@@ -33,7 +33,7 @@
         <div class="game-card">
             <h3>2048</h3>
             <p>Slide tiles and get to the 2048 tile!</p>
-            <button onclick="launchUrlDirect('https://gabrielecirulli.github.io/2048/')" class="play-btn">Launch External</button>
+            <button onclick="launchDirect('https://gabrielecirulli.github.io/2048/')" class="play-btn">Play 2048</button>
         </div>
 
     </main>
@@ -43,7 +43,7 @@
     </footer>
 
     <script>
-        // Function 1: Launches any custom URL entered in the input box into about:blank
+        // Custom URL Launcher function
         function launchUrl() {
             let url = document.getElementById('urlInput').value.trim();
             
@@ -52,48 +52,24 @@
                 return;
             }
 
-            // Ensure url has http or https prefix
+            // Automatically add https:// if it is missing
             if (!/^https?:\/\//i.test(url)) {
                 url = 'https://' + url;
             }
 
-            const win = window.open('about:blank', '_blank');
-            if (win) {
-                win.document.body.style.margin = '0';
-                win.document.body.style.height = '100vh';
-                
-                const iframe = win.document.createElement('iframe');
-                iframe.style.border = 'none';
-                iframe.style.width = '100%';
-                iframe.style.height = '100%';
-                iframe.src = url;
-                
-                win.document.body.appendChild(iframe);
-            } else {
-                alert('Pop-up blocked! Please allow pop-ups for this site.');
-            }
+            // Opens in a clean new tab to bypass iframe security blocks
+            window.open(url, '_blank');
         }
 
-        // Function 2: For preset external game cards
-        function launchUrlDirect(targetUrl) {
-            const win = window.open('about:blank', '_blank');
-            if (win) {
-                win.document.body.style.margin = '0';
-                win.document.body.style.height = '100vh';
-                const iframe = win.document.createElement('iframe');
-                iframe.style.border = 'none';
-                iframe.style.width = '100%';
-                iframe.style.height = '100%';
-                iframe.src = targetUrl;
-                win.document.body.appendChild(iframe);
-            }
+        // Direct launcher for preset external game links
+        function launchDirect(targetUrl) {
+            window.open(targetUrl, '_blank');
         }
 
-        // Function 3: Opens your local HTML game files (like snake.html)
+        // Launcher for local HTML game files (like snake.html)
         function launchLocalGame(pageName) {
-            // Gets the current domain path so it stays on your site structure
             const currentPath = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
-            launchUrlDirect(currentPath + pageName);
+            window.open(currentPath + pageName, '_blank');
         }
     </script>
 
