@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔮 Cosmic Fortune Teller</title>
+    <style>
+        body {
+            background-color: #0f0c1b;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        h1 {
+            color: #a855f7;
+            text-shadow: 0 0 10px rgba(168, 85, 247, 0.5);
+            margin-bottom: 5px;
+        }
+
+        p {
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        /* The Magic 8-Ball Container */
+        .ball-container {
+            position: relative;
+            width: 280px;
+            height: 280px;
+            background: radial-gradient(circle at 30% 30%, #3b0764, #120024, #000);
+            border-radius: 50%;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.8), inset -10px -10px 30px rgba(0,0,0,0.7), 0 0 20px rgba(168, 85, 247, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: transform 0.1s ease;
+        }
+
+        /* Inner Screen */
+        .ball-screen {
+            width: 120px;
+            height: 120px;
+            background: #050510;
+            border: 6px solid #1e1b4b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            box-sizing: border-box;
+            box-shadow: inset 0 0 15px rgba(0,0,0,1);
+        }
+
+        /* Triangle Inner Shape */
+        .fortune-text {
+            color: #38bdf8;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-align: center;
+            text-transform: uppercase;
+            text-shadow: 0 0 8px rgba(56, 189, 248, 0.8);
+            opacity: 1;
+            transition: opacity 0.3s ease;
+            max-width: 90px;
+        }
+
+        /* Controls */
+        .controls {
+            margin-top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        input {
+            background: #1e1b4b;
+            border: 2px solid #4c1d95;
+            border-radius: 8px;
+            padding: 12px 20px;
+            color: white;
+            font-size: 1rem;
+            width: 300px;
+            text-align: center;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #a855f7;
+        }
+
+        button {
+            background: linear-gradient(135deg, #a855f7, #6366f1);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.6);
+        }
+
+        /* Shake Animation Effect */
+        .shake {
+            animation: shakeAnimation 0.5s ease-in-out;
+        }
+
+        @keyframes shakeAnimation {
+            0% { transform: translate(0, 0); }
+            15% { transform: translate(-15px, 10px) rotate(-5deg); }
+            30% { transform: translate(15px, -10px) rotate(5deg); }
+            45% { transform: translate(-10px, 10px) rotate(-3deg); }
+            60% { transform: translate(10px, -5px) rotate(3deg); }
+            75% { transform: translate(-5px, 5px) rotate(-1deg); }
+            100% { transform: translate(0, 0); }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>🔮 Cosmic Fortune Teller</h1>
+    <p>Ask a yes-or-no question, then shake the mystic ball.</p>
+
+    <div class="ball-container" id="ball" onclick="askFortune()">
+        <div class="ball-screen">
+            <div class="fortune-text" id="display">8</div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <input type="text" id="question" placeholder="Will I become a millionaire?">
+        <button onclick="askFortune()">Consult the Universe</button>
+    </div>
+
+    <script>
+        // Array of cosmic predictions
+        const fortunes = [
+            "It is certain",
+            "Reply hazy, try again",
+            "Don't count on it",
+            "Without a doubt",
+            "Ask again later",
+            "My sources say no",
+            "As I see it, yes",
+            "Cannot predict now",
+            "Outlook not so good",
+            "Most likely",
+            "Signs point to yes",
+            "Very doubtful"
+        ];
+
+        function askFortune() {
+            const input = document.getElementById('question');
+            const display = document.getElementById('display');
+            const ball = document.getElementById('ball');
+
+            // Quick check if they actually asked a question
+            if (input.value.trim() === "") {
+                alert("You must focus your mind and type a question first!");
+                return;
+            }
+
+            // Trigger the CSS shake animation
+            ball.classList.add('shake');
+            display.style.opacity = '0'; // Hide text during shake
+
+            // Wait 500ms for the animation to end, then show fortune
+            setTimeout(() => {
+                const randomIdx = Math.floor(Math.random() * fortunes.length);
+                display.innerText = fortunes[randomIdx];
+                display.style.opacity = '1';
+                ball.classList.remove('shake');
+                
+                // Clear the input box for the next question
+                input.value = "";
+            }, 500);
+        }
+    </script>
+
+</body>
+</html>
