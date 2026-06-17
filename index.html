@@ -3,70 +3,325 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apex Arcade & Launcher</title>
-    <link rel="stylesheet" href="style.css">
+    <title>Apex Hub Dashboard</title>
+    <style>
+        :root {
+            --bg-primary: #0f111a;
+            --bg-surface: #161925;
+            --bg-card: #1f2336;
+            --accent: #7c3aed;
+            --accent-hover: #6d28d9;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --neon-blue: #06b6d4;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* User-Friendly Dashboard Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: var(--bg-surface);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 2rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .brand h1 {
+            font-size: 1.5rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand span {
+            color: var(--neon-blue);
+        }
+
+        .nav-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            list-style: none;
+        }
+
+        .nav-item {
+            display: block;
+            padding: 0.8rem 1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: var(--accent);
+            color: white;
+        }
+
+        /* Main Workspace Layout */
+        .main-content {
+            flex: 1;
+            padding: 2.5rem;
+            overflow-y: auto;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .section-header {
+            margin-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Clean & Responsive Launcher Box Layout */
+        .launcher-card {
+            background-color: var(--bg-surface);
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .input-wrapper {
+            display: flex;
+            gap: 12px;
+            margin-top: 1.5rem;
+        }
+
+        .input-wrapper input {
+            flex: 1;
+            background-color: var(--bg-primary);
+            border: 2px solid var(--bg-card);
+            border-radius: 10px;
+            padding: 1rem;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .input-wrapper input:focus {
+            border-color: var(--neon-blue);
+        }
+
+        .launch-btn {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 0 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .launch-btn:hover {
+            background-color: var(--accent-hover);
+        }
+
+        /* Grid Framework for App/Game Cards */
+        .grid-layout {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .app-card {
+            background-color: var(--bg-surface);
+            border-radius: 14px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 200px;
+            transition: transform 0.2s, border-color 0.2s;
+        }
+
+        .app-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(6, 182, 212, 0.4);
+        }
+
+        .card-meta h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-meta p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            background-color: rgba(6, 182, 212, 0.1);
+            color: var(--neon-blue);
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            margin-bottom: 0.75rem;
+            font-weight: bold;
+        }
+
+        .badge.local {
+            background-color: rgba(124, 58, 237, 0.1);
+            color: #a78bfa;
+        }
+
+        .card-action {
+            margin-top: 1.5rem;
+        }
+
+        .action-btn {
+            width: 100%;
+            background-color: var(--bg-card);
+            color: var(--text-main);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background-color: var(--accent);
+            color: white;
+            border-color: transparent;
+        }
+
+        /* Responsive Fixes */
+        @media (max-width: 768px) {
+            body { flex-direction: column; }
+            .sidebar { width: 100%; padding: 1.5rem; }
+            .input-wrapper { flex-direction: column; }
+            .launch-btn { padding: 1rem; }
+        }
+    </style>
 </head>
 <body>
 
-    <header>
-        <h1>🎮 Apex Portal</h1>
-        <p>Launch games locally or open any website cleanly.</p>
-    </header>
-
-    <section class="launcher-box">
-        <h2>🚀 URL Launcher</h2>
-        <p>Enter any URL below to launch it cleanly in a new tab.</p>
-        <div class="input-group">
-            <input type="text" id="urlInput" placeholder="https://example.com">
-            <button onclick="launchUrl()">Launch Site</button>
+    <nav class="sidebar">
+        <div class="brand">
+            <h1>Apex <span>Portal</span></h1>
         </div>
-    </section>
+        <ul class="nav-links">
+            <li><a href="#launcher" class="nav-item active">Dashboard</a></li>
+            <li><a href="#library" class="nav-item">Web Games</a></li>
+        </ul>
+    </nav>
 
-    <main class="game-container">
+    <main class="main-content">
         
-        <div class="game-card">
-            <h3>Retro Snake</h3>
-            <p>Play classic snake hosted entirely on this site.</p>
-            <button onclick="launchLocalGame('snake.html')" class="play-btn">Play Locally</button>
+        <section id="launcher" class="section-header">
+            <h2>System Dashboard</h2>
+            <p>Launch customized links or manage web applications instantly.</p>
+        </section>
+
+        <div class="launcher-card">
+            <h3>Web Proxy & Link Forwarder</h3>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Type any destination address below to forward cleanly to a fresh tab process.</p>
+            <div class="input-wrapper">
+                <input type="text" id="urlInput" placeholder="Enter web link (e.g., bing.com)">
+                <button class="launch-btn" onclick="launchUrl()">Launch System</button>
+            </div>
         </div>
 
-        <div class="game-card">
-            <h3>2048</h3>
-            <p>Slide tiles and get to the 2048 tile!</p>
-            <button onclick="launchDirect('https://gabrielecirulli.github.io/2048/')" class="play-btn">Play 2048</button>
+        <section id="library" class="section-header">
+            <h2>Application Library</h2>
+            <p>Access your locally hosted software engines and configured mini-games.</p>
+        </section>
+
+        <div class="grid-layout">
+            
+            <div class="app-card">
+                <div class="card-meta">
+                    <span class="badge local">Local Engine</span>
+                    <h3>Retro Snake</h3>
+                    <p>Classic vintage 2D snake setup. Fully hosted locally right inside your directory files.</p>
+                </div>
+                <div class="card-action">
+                    <button class="action-btn" onclick="launchLocalGame('snake.html')">Initialize Game</button>
+                </div>
+            </div>
+
+            <div class="app-card">
+                <div class="card-meta">
+                    <span class="badge local">Local Engine</span>
+                    <h3>Cosmic Fortune</h3>
+                    <p>An interactive animated predictive module built for processing decisions and fun predictions.</p>
+                </div>
+                <div class="card-action">
+                    <button class="action-btn" onclick="launchLocalGame('fortune.html')">Initialize App</button>
+                </div>
+            </div>
+
+            <div class="app-card">
+                <div class="card-meta">
+                    <span class="badge">External Link</span>
+                    <h3>2048 Puzzle</h3>
+                    <p>Slide block grids mathematically to score the ultimate combination block.</p>
+                </div>
+                <div class="card-action">
+                    <button class="action-btn" onclick="launchDirect('https://gabrielecirulli.github.io/2048/')">Initialize Game</button>
+                </div>
+            </div>
+
         </div>
 
     </main>
 
-    <footer>
-        <p>&copy; 2026 Apex Arcade. Built with GitHub Pages.</p>
-    </footer>
-
     <script>
-        // Custom URL Launcher function
+        // Custom URL Processing Link Engine
         function launchUrl() {
             let url = document.getElementById('urlInput').value.trim();
             
             if (!url) {
-                alert('Please enter a URL first!');
+                alert('Please provide a routing path address first!');
                 return;
             }
 
-            // Automatically add https:// if it is missing
+            // Enforce proper web protocol prefixes
             if (!/^https?:\/\//i.test(url)) {
                 url = 'https://' + url;
             }
 
-            // Opens in a clean new tab to bypass iframe security blocks
             window.open(url, '_blank');
         }
 
-        // Direct launcher for preset external game links
+        // Direct System Opener
         function launchDirect(targetUrl) {
             window.open(targetUrl, '_blank');
         }
 
-        // Launcher for local HTML game files (like snake.html)
+        // Internal Directory Launcher App Routing
         function launchLocalGame(pageName) {
             const currentPath = window.location.href.substring(0, window.location.href.lastIndexOf('/') + 1);
             window.open(currentPath + pageName, '_blank');
